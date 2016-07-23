@@ -13,8 +13,8 @@ done
 DBPASS=${MYSQL_PASS:-'admin'}
 DBUSER=${MYSQL_USER:-'admin'}
 DBNAME=${MYSQL_DBNAME:-'wordpress'}
-VIRTUAL_DOMAIN=${VIRTUAL_DOMAIN:-'localhost'}
-USER_EMAIL=${USER_EMAIL:-'support@'$VIRTUAL_DOMAIN}
+VIRTUAL_HOST=${VIRTUAL_HOST:-'localhost'}
+USER_EMAIL=${USER_EMAIL:-'support@'$VIRTUAL_HOST}
 WP_USER=${WP_USER:-'admin'}
 WP_PASSTEMP=${WP_PASS:-'password'}
 #WP_PASS=$(printf '%s' $WP_PASSTEMP | md5sum)
@@ -34,8 +34,8 @@ echo "================================================================ "
 mysql -uroot -e "CREATE DATABASE $DBNAME"
 mysql -uroot -e "CREATE USER '$DBUSER'@'%' IDENTIFIED BY '$DBPASS'"
 mysql -uroot -e "GRANT ALL PRIVILEGES ON *.* TO '$DBUSER'@'%' WITH GRANT OPTION"
-replace DOMAINNAMEHERE $VIRTUAL_DOMAIN -- wordpress.sql
-replace SITETITLEHERE $VIRTUAL_DOMAIN -- wordpress.sql
+replace DOMAINNAMEHERE $VIRTUAL_HOST -- wordpress.sql
+replace SITETITLEHERE $VIRTUAL_HOST -- wordpress.sql
 replace USERNAMEHERE $WP_USER -- wordpress.sql
 replace PASSWORDHERE $WP_PASS -- wordpress.sql
 replcae USEREMAILHERE@EMAIL.COM $USER_EMAIL -- wordpress.sql
