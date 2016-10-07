@@ -33,12 +33,22 @@ echo "WP MAIL -> $USER_EMAIL"
 echo "================================================================ "
 mysql -uroot -e "CREATE DATABASE $DBNAME"
 mysql -uroot -e "CREATE USER '$DBUSER'@'%' IDENTIFIED BY '$DBPASS'"
-mysql -uroot -e "GRANT ALL PRIVILEGES ON *.* TO '$DBUSER'@'%' WITH GRANT OPTION"
+mysql -uroot -e "GRANT ALL PRIVILEGES ON $DBNAME.* TO '$DBUSER'@'%' WITH GRANT OPTION"
+
 replace DOMAINNAMEHERE $VIRTUAL_HOST -- wordpress.sql
 replace SITETITLEHERE $VIRTUAL_HOST -- wordpress.sql
 replace USERNAMEHERE $WP_USER -- wordpress.sql
 replace PASSWORDHERE $WP_PASS -- wordpress.sql
 replcae USEREMAILHERE@EMAIL.COM $USER_EMAIL -- wordpress.sql
+
+
+echo '-----------------------'
+echo "filemanager user =>  ${FILEMANAGERUSER:-'testuser'}"
+echo "filemanager pass => ${FILEMANAGERPASSWORD:-'testpassword'}"
+echo '------------------------'
+replace FILEMANAGERUSER ${FILEMANAGERUSER:-'testuser'} -- /usr/share/pbn/filemanager/config/.htusers.php
+replace FILEMANAGERPASSWORD $(echo -n ${FILEMANAGERPASSWORD:-'testpassword'} | md5sum | awk '{print $1}') -- /usr/share/pbn/filemanager/config/.htusers.php
+
 
 replace MYSQL_DBNAME $DBNAME -- /var/www/html/wp-config.php
 replace MYSQL_USER $DBUSER -- /var/www/html/wp-config.php
